@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Yann Lecun: A Path Towards Autonomous Machine Intelligence</title>
+      <link href="/2022/07/18/Yann-Lecun-A-Path-Towards-Autonomous-Machine-Intelligence/"/>
+      <url>/2022/07/18/Yann-Lecun-A-Path-Towards-Autonomous-Machine-Intelligence/</url>
+      
+        <content type="html"><![CDATA[<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>机器怎样才能像人和动物一样高效地学习？机器怎样学习推理和规划？机器怎样在多种抽象的层次上学习感知和动作规划的表示，去推理、预测并在多种时间维度规划<font color="red">本文提出构建自主智能体的架构和训练范式。它结合了例如可配置的预测世界模型、通过内在动机驱动的行为以及通过自监督学习训练的分层联合嵌入架构。</font></p><p><strong>关键词：</strong> 人工智能 机器常识 认知架构 深度学习 自监督学习 基于能量的模型 世界模型 联合嵌入架构 内在动机</p><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>动物和人表现出学习和理解世界的能力远超目前人工智能和机器学习的能力。</p><p>一个青少年怎么可能在大约20个小时的练习中学会开车，孩子们怎么可能通过少量的接触就学会语言？为什么大多数人会知道如何在许多他们从未遇到过的情况下采取行动?相比之下，为了更可靠，目前的机器学习系统需要进行大量的试验训练，这样即使是最罕见的情况组合也会在训练中经常遇到。尽管如此，即使在接受了人类专家提供的大量监督数据后，在虚拟环境中经历了数百万次强化学习试验后，在工程师将数百种行为硬连接到系统中之后，我们最好的机器学习系统在驾驶等现实世界任务中的可靠性仍远不及人类。</p><p>答案可能在于人类和许多动物学习世界模型的能力，世界如何运作的内部模型。</p><p>目前，人工智能研究必须应对三个主要挑战:</p><ol><li><p>机器如何学习描述世界，学习预测，学习主要通过观察来行动？<br>现实世界中的互动既昂贵又危险，智能体应该在没有互动的情况下(通过观察)尽可能多地了解这个世界，从而尽可能减少学习一项特定任务所需的昂贵而危险的试验次数。</p></li><li><p>机器如何能够以与基于梯度的学习兼容的方式进行推理和规划？<br>我们最好的学习方法依赖于估计和使用损失的梯度，这只能用可微分的架构来执行，并且很难与基于逻辑的符号推理相协调。</p></li><li><p>机器如何学习以一种分层的方式，在多个抽象级别和多个时间尺度上表示感知和行动计划？<br>人类和许多动物都能够构思出多层次的抽象概念，通过将复杂的行动分解成一系列较低层次的行动，可以实现长期的预测和长期的规划。</p></li></ol><p>本文提出了一种智能体的架构，为所有这三个挑战提供了可能的解决方案。</p><p>本文的主要贡献如下:</p><ol><li>一个整体的认知架构，其中所有模块都是可区分的，其中许多模块是可训练的（图2，第3节）。</li><li>JEPA和分层JEPA：预测世界模型的非生成架构，学习了表示的层次结构（章节4.4和4.6，图12和15）</li><li>一种非对比的自我监督学习范式，产生的表征同时是信息量大和可预测的（节4.5，图13）。</li><li>一种在不确定性下，使用H-JEPA作为分层规划预测世界模型的基础的方法（第4.7节，图16和17）。</li></ol><h3 id="学习世界模型"><a href="#学习世界模型" class="headerlink" title="学习世界模型"></a>学习世界模型</h3><p>人类和非人类的动物似乎能通过观察和不可理解的少量互动，以一种任务独立、无监督的方式，学习大量关于世界如何运作的背景知识。可以假设，这些积累的知识也许组成了我们常说的常识的基础。常识可以视为世界模型的集合，可以告诉智能体什么是可能的，什么是可信的，以及什么是不可能的。用这样的世界模型，动物可以通过非常少的试验学习新的技能。它们可以预测动作的结果，它们可以推理，规划，探索，以及想象问题的新解决方案。重要的是，当面对一个未知情况时，它们也可以避免犯危险的错误。</p><p>人类，动物和智能系统使用世界模型的想法可以追溯到很久以前的心理学。自20世纪50年代以来，使用预测世界下一个状态作为当前状态和被考虑的行动的函数的正演模型，一直是最优控制的标准程序，被称为模型预测控制。强化学习中使用可微世界模型已经被长期忽视，但正在卷土重来。</p><p>汽车的自动驾驶系统也许需要数千次强化学习的试验，以了解转弯时开得太快会造成不好的结果，并学会减速以避免打滑。对比之下，人类可以利用他们对直观物理的熟悉知识来预测这样的结果，并且在学习新技能时很大程度上避免致命的行动过程。</p><p>无论是时间上的还是空间上的，常识不仅允许动物预测未来的结果，而且能填补缺失的信息。这允许它们对产生与常识一致的感知解释。当面对一个模棱两可的感知时，常识允许动物不去理会与他们内部世界模型不一致的解释，并给予特别关注，因为它可能表明一个危险的情况和学习一个精致的世界模型的机会。</p><p><strong>我认为，设计学习范式和架构，使机器能以无监督（或自监督）的方式学习世界模型，并用这些模型去预测、推理和规划，是当今人工智能和机器学习的主要挑战之一</strong>。一个主要的技术障碍是如何设计可训练的世界模型，以处理预测中的不确定性。</p><h3 id="人类和动物学习模型的层次"><a href="#人类和动物学习模型的层次" class="headerlink" title="人类和动物学习模型的层次"></a>人类和动物学习模型的层次</h3><p>人类和非人类的动物在生命的最初几天、几周和几个月里学习世界怎样运作的基本知识。尽管我们很快就可以获得大量这样的知识，但这些知识似乎是如此基础，以至于我们认为理所当然。</p><p>在生命的最初几个月，我们知道世界是三维的。我们知道每一种光源、声音和触摸都与我们有一定的距离。视觉感知中的每个点都有一定的距离，这个事实最好地解释了我们从左眼到右眼或者当我们头部移动时世界时如何变化的。运动视差使深度变得明显，从而使物体的概念变得明显，以及物体可以遮挡更远的物体的事实。一旦确定了物体的存在性，它们可以根据其外观或行为被自动划分为更广的类别。</p><p>在物体的概念之上，我们知道物体不会自发地出现、消失、改变形状或者瞬间移动：它们会平稳地移动，并且任何时间只能出现在一个地方。一旦掌握了这些概念，很容易知道，有些物体是静止的，有些物体有可预测的轨迹（无生命的物体），有些物体的行为有些不可预测（集体现象，如水、沙、风中的树叶等），有些物体看起来遵循不同的规则（有生命的物体）。直观物理的概念，如稳定性、重力、惯性和其他等，可以再此基础上出现。有生命的物体对世界的影响（包括主体自身行为的影响）可以用于推断因果关系，在此基础上可以获得语言和社会知识。</p><p><img src="/img/essay_img/path_fig1.jpg" alt="avatar" title="图一"></p><p>图一展示了婴儿在什么年龄获得基本概念，如物体持久性、基础类别和直观物理等。高层次的抽象概念似乎是在低层次的概念上发展而来的。</p><p>有了这种世界的认知，再结合简单的固有行为和内在动机&#x2F;目标，动物可以很快学习新任务，预测它们行动的结果并提前规划，预见成功的行为路线并避免危险的情况。</p><p>但是人类和动物大脑可以包含生存所需要的所有世界模型吗？本文中的一个假设是动物和人类的前额皮质中只有一个世界模型引擎。这个世界模型引擎可以为手头任务动态配置的。使用这个单一的、可配置的世界模型引擎，而不是对每种情况都有一个单独的模型，关于世界如何运作的知识可以跨任务共享。这可以通过将一种情况的配置模型应用到另一种情况来进行类比推理。</p><p>为了让事情具体化，我将直接深入描述提出的模型。</p><h2 id="自主智能的模型架构"><a href="#自主智能的模型架构" class="headerlink" title="自主智能的模型架构"></a>自主智能的模型架构</h2><p><img src="/img/essay_img/path_fig2.jpg" alt="avatar" title="图二"></p><h3 id="典型的感知-动作循环"><a href="#典型的感知-动作循环" class="headerlink" title="典型的感知-动作循环"></a>典型的感知-动作循环</h3><p>模型一：反应性行为<br>模型二：使用世界模型推理和规划<br>从模型二到模型一：学习新技能<br>作为能量最小化的推理</p><h3 id="作为行为驱动力的成本模块"><a href="#作为行为驱动力的成本模块" class="headerlink" title="作为行为驱动力的成本模块"></a>作为行为驱动力的成本模块</h3><h3 id="训练批评家"><a href="#训练批评家" class="headerlink" title="训练批评家"></a>训练批评家</h3><h2 id="设计和训练世界模型"><a href="#设计和训练世界模型" class="headerlink" title="设计和训练世界模型"></a>设计和训练世界模型</h2><h3 id="自监督学习"><a href="#自监督学习" class="headerlink" title="自监督学习"></a>自监督学习</h3><h3 id="用隐变量处理不确定性"><a href="#用隐变量处理不确定性" class="headerlink" title="用隐变量处理不确定性"></a>用隐变量处理不确定性</h3><h3 id="训练基于能量的模型"><a href="#训练基于能量的模型" class="headerlink" title="训练基于能量的模型"></a>训练基于能量的模型</h3><h3 id="联合嵌入预测架构-JEPA"><a href="#联合嵌入预测架构-JEPA" class="headerlink" title="联合嵌入预测架构(JEPA)"></a>联合嵌入预测架构(JEPA)</h3><h2 id="训练JEPA"><a href="#训练JEPA" class="headerlink" title="训练JEPA"></a>训练JEPA</h2><p>VICReg<br>让JEPA偏向于学习“有用的”表示</p><h3 id="分层的JEPA"><a href="#分层的JEPA" class="headerlink" title="分层的JEPA"></a>分层的JEPA</h3><h3 id="分层规划"><a href="#分层规划" class="headerlink" title="分层规划"></a>分层规划</h3><h3 id="处理不确定性"><a href="#处理不确定性" class="headerlink" title="处理不确定性"></a>处理不确定性</h3><p>世界模型架构</p><h3 id="持续追踪世界的状态"><a href="#持续追踪世界的状态" class="headerlink" title="持续追踪世界的状态"></a>持续追踪世界的状态</h3><h3 id="数据流"><a href="#数据流" class="headerlink" title="数据流"></a>数据流</h3><h2 id="设计和训练行动者-Actor"><a href="#设计和训练行动者-Actor" class="headerlink" title="设计和训练行动者(Actor)"></a>设计和训练行动者(Actor)</h2><h2 id="设计配置器"><a href="#设计配置器" class="headerlink" title="设计配置器"></a>设计配置器</h2><h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><h3 id="训练世界模型，模型预测控制，分层规划"><a href="#训练世界模型，模型预测控制，分层规划" class="headerlink" title="训练世界模型，模型预测控制，分层规划"></a>训练世界模型，模型预测控制，分层规划</h3><h3 id="基于能量的模型和联合嵌入模型"><a href="#基于能量的模型和联合嵌入模型" class="headerlink" title="基于能量的模型和联合嵌入模型"></a>基于能量的模型和联合嵌入模型</h3><h3 id="人类和动物认知"><a href="#人类和动物认知" class="headerlink" title="人类和动物认知"></a>人类和动物认知</h3><h2 id="讨论，局限性，更广泛的相关性"><a href="#讨论，局限性，更广泛的相关性" class="headerlink" title="讨论，局限性，更广泛的相关性"></a>讨论，局限性，更广泛的相关性</h2><h3 id="提出的模型缺少什么"><a href="#提出的模型缺少什么" class="headerlink" title="提出的模型缺少什么"></a>提出的模型缺少什么</h3><h3 id="提出的方法更广阔的相关性"><a href="#提出的方法更广阔的相关性" class="headerlink" title="提出的方法更广阔的相关性"></a>提出的方法更广阔的相关性</h3><p>这个架构可以成为动物智能模型的基础吗<br>这是一条通往机器常识的路吗</p><h3 id="这些都是关于规模吗？奖赏真的足够吗？"><a href="#这些都是关于规模吗？奖赏真的足够吗？" class="headerlink" title="这些都是关于规模吗？奖赏真的足够吗？"></a>这些都是关于规模吗？奖赏真的足够吗？</h3><p>规模是不足的<br>奖赏是不足的<br>我们需要推理符号吗</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 文献阅读 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ML </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>我的第一篇博客</title>
+      <link href="/2022/07/15/my-first-blog/"/>
+      <url>/2022/07/15/my-first-blog/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>熟悉一下markdown的语法</p></blockquote><h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><p><del>删除</del></p><p><em>斜体</em></p><p><strong>加粗</strong></p><p>高亮</p><p><code>code</code></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code</span><br></pre></td></tr></table></figure><p><a href="https://baidu.com/">百度</a></p><hr><ul><li>1   <ul><li>2<ul><li>3</li></ul></li></ul></li></ul><hr><table><thead><tr><th>姓名</th><th align="center">技能</th><th align="right">排行</th></tr></thead><tbody><tr><td>刘备</td><td align="center">哭</td><td align="right">大哥</td></tr><tr><td>关羽</td><td align="center">打</td><td align="right">二哥</td></tr><tr><td>张飞</td><td align="center">骂</td><td align="right">三弟</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> 网站 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> Markdown </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2022/07/14/hello-world/"/>
+      <url>/2022/07/14/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
